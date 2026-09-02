@@ -1,0 +1,63 @@
+<UserControl x:Class="JlkMailer.App.Views.LogView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" Style="{StaticResource Card}" Margin="0,0,0,12">
+            <StackPanel>
+                <TextBlock Text="진행" Style="{StaticResource H1}" />
+
+                <ProgressBar Height="18" Minimum="0" Maximum="100" Value="{Binding ProgressPercent, Mode=OneWay}"
+                             Margin="0,6,0,10" Foreground="{StaticResource Navy}" Background="{StaticResource Surface2}"
+                             BorderBrush="{StaticResource Rule}" />
+
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock FontFamily="{StaticResource MonoFont}" FontSize="13" Margin="0,0,24,0">
+                        <Run Text="성공 " Foreground="#5F7183" />
+                        <Run Text="{Binding Sent, Mode=OneWay}" FontWeight="Bold" Foreground="#1B6E52" />
+                    </TextBlock>
+                    <TextBlock FontFamily="{StaticResource MonoFont}" FontSize="13" Margin="0,0,24,0">
+                        <Run Text="실패 " Foreground="#5F7183" />
+                        <Run Text="{Binding Failed, Mode=OneWay}" FontWeight="Bold" Foreground="#A82A20" />
+                    </TextBlock>
+                    <TextBlock FontFamily="{StaticResource MonoFont}" FontSize="13" Margin="0,0,24,0">
+                        <Run Text="대기 " Foreground="#5F7183" />
+                        <Run Text="{Binding Remaining, Mode=OneWay}" FontWeight="Bold" Foreground="#0F1E2E" />
+                    </TextBlock>
+                </StackPanel>
+
+                <TextBlock Text="{Binding OutcomeText}" Style="{StaticResource Caption}" Margin="0,8,0,0"
+                           TextWrapping="Wrap" FontWeight="SemiBold" />
+            </StackPanel>
+        </Border>
+
+        <TextBlock Grid.Row="1" Text="발송 로그 — SMTP 응답 원문이 그대로 남습니다. 반송 분석의 근거입니다."
+                   Style="{StaticResource Caption}" Margin="0,0,0,6" />
+
+        <Border Grid.Row="2" Background="{StaticResource Surface}" BorderBrush="{StaticResource Rule}" BorderThickness="1" CornerRadius="4">
+            <ListBox ItemsSource="{Binding Log}" BorderThickness="0" Background="Transparent"
+                     ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                     VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Display}" FontFamily="{StaticResource MonoFont}" FontSize="11.5"
+                                   Foreground="{Binding Severity, Converter={StaticResource SeverityToBrush}}" />
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Border>
+
+        <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="0,12,0,0">
+            <Button Content="⏹ 중지" Command="{Binding StopCommand}" Style="{StaticResource DangerButton}" Margin="0,0,10,0" />
+            <Button Content="결과 엑셀로 내보내기" Command="{Binding ExportCommand}" />
+            <TextBlock VerticalAlignment="Center" Margin="14,0,0,0" Style="{StaticResource Caption}"
+                       Text="중지해도 이미 보낸 기록은 남습니다. 다시 시작하면 남은 건부터 이어서 보냅니다." />
+        </StackPanel>
+    </Grid>
+</UserControl>

@@ -1,0 +1,71 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{61D64BC9-F0CB-400C-84DD-3EF9274961B5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JlkMailer.Core", "src\JlkMailer.Core\JlkMailer.Core.csproj", "{4683CB16-C43B-4A1A-B1AE-622195A4B396}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JlkMailer.Infrastructure", "src\JlkMailer.Infrastructure\JlkMailer.Infrastructure.csproj", "{6F06E9EF-14E4-43A7-BADB-0DAD3A6F298E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JlkMailer.Application", "src\JlkMailer.Application\JlkMailer.Application.csproj", "{B52A5D49-75A5-4AAF-9169-B96EB3CDD66C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JlkMailer.Presentation", "src\JlkMailer.Presentation\JlkMailer.Presentation.csproj", "{C416C117-93AE-42EA-A56F-693C83BD0588}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JlkMailer.Cli", "src\JlkMailer.Cli\JlkMailer.Cli.csproj", "{8C8567DD-45B4-4F2D-B0A5-C50161646B84}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JlkMailer.App", "src\JlkMailer.App\JlkMailer.App.csproj", "{BAAE86C3-E199-499C-A64F-7A4DACBA1A9C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{25A998F7-3C7E-49CD-BCE3-F1D9444920AA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JlkMailer.Tests", "tests\JlkMailer.Tests\JlkMailer.Tests.csproj", "{C5F4C4B9-382C-40A1-9C75-32802ECA6FD9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4683CB16-C43B-4A1A-B1AE-622195A4B396}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4683CB16-C43B-4A1A-B1AE-622195A4B396}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4683CB16-C43B-4A1A-B1AE-622195A4B396}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4683CB16-C43B-4A1A-B1AE-622195A4B396}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F06E9EF-14E4-43A7-BADB-0DAD3A6F298E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F06E9EF-14E4-43A7-BADB-0DAD3A6F298E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F06E9EF-14E4-43A7-BADB-0DAD3A6F298E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F06E9EF-14E4-43A7-BADB-0DAD3A6F298E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B52A5D49-75A5-4AAF-9169-B96EB3CDD66C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B52A5D49-75A5-4AAF-9169-B96EB3CDD66C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B52A5D49-75A5-4AAF-9169-B96EB3CDD66C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B52A5D49-75A5-4AAF-9169-B96EB3CDD66C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C416C117-93AE-42EA-A56F-693C83BD0588}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C416C117-93AE-42EA-A56F-693C83BD0588}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C416C117-93AE-42EA-A56F-693C83BD0588}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C416C117-93AE-42EA-A56F-693C83BD0588}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C8567DD-45B4-4F2D-B0A5-C50161646B84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C8567DD-45B4-4F2D-B0A5-C50161646B84}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C8567DD-45B4-4F2D-B0A5-C50161646B84}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C8567DD-45B4-4F2D-B0A5-C50161646B84}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BAAE86C3-E199-499C-A64F-7A4DACBA1A9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BAAE86C3-E199-499C-A64F-7A4DACBA1A9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BAAE86C3-E199-499C-A64F-7A4DACBA1A9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BAAE86C3-E199-499C-A64F-7A4DACBA1A9C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C5F4C4B9-382C-40A1-9C75-32802ECA6FD9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5F4C4B9-382C-40A1-9C75-32802ECA6FD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5F4C4B9-382C-40A1-9C75-32802ECA6FD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5F4C4B9-382C-40A1-9C75-32802ECA6FD9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{4683CB16-C43B-4A1A-B1AE-622195A4B396} = {61D64BC9-F0CB-400C-84DD-3EF9274961B5}
+		{6F06E9EF-14E4-43A7-BADB-0DAD3A6F298E} = {61D64BC9-F0CB-400C-84DD-3EF9274961B5}
+		{B52A5D49-75A5-4AAF-9169-B96EB3CDD66C} = {61D64BC9-F0CB-400C-84DD-3EF9274961B5}
+		{C416C117-93AE-42EA-A56F-693C83BD0588} = {61D64BC9-F0CB-400C-84DD-3EF9274961B5}
+		{8C8567DD-45B4-4F2D-B0A5-C50161646B84} = {61D64BC9-F0CB-400C-84DD-3EF9274961B5}
+		{BAAE86C3-E199-499C-A64F-7A4DACBA1A9C} = {61D64BC9-F0CB-400C-84DD-3EF9274961B5}
+		{C5F4C4B9-382C-40A1-9C75-32802ECA6FD9} = {25A998F7-3C7E-49CD-BCE3-F1D9444920AA}
+	EndGlobalSection
+EndGlobal

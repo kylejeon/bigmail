@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>JlkMailer.Presentation</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\JlkMailer.Application\JlkMailer.Application.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <!--
+      ViewModel 은 WPF 를 참조하지 않는다. net8.0 으로 컴파일되므로 Windows 없이도 빌드·테스트된다.
+      WPF 프로젝트(JlkMailer.App)에는 XAML 과 코드비하인드만 남는다.
+    -->
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.3.2" />
+  </ItemGroup>
+</Project>

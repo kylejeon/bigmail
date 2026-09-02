@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>JlkMailer.Application</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\JlkMailer.Core\JlkMailer.Core.csproj" />
+    <ProjectReference Include="..\JlkMailer.Infrastructure\JlkMailer.Infrastructure.csproj" />
+  </ItemGroup>
+</Project>

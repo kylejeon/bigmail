@@ -1,0 +1,12 @@
+<Project>
+  <PropertyGroup>
+    <LangVersion>12.0</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <InvariantGlobalization>false</InvariantGlobalization>
+    <Product>JLK-CTP Mailer</Product>
+    <Company>JLK</Company>
+    <NeutralLanguage>ko-KR</NeutralLanguage>
+  </PropertyGroup>
+</Project>

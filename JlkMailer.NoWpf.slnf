@@ -1,0 +1,13 @@
+{
+  "solution": {
+    "path": "JlkMailer.sln",
+    "projects": [
+      "src\\JlkMailer.Core\\JlkMailer.Core.csproj",
+      "src\\JlkMailer.Infrastructure\\JlkMailer.Infrastructure.csproj",
+      "src\\JlkMailer.Application\\JlkMailer.Application.csproj",
+      "src\\JlkMailer.Presentation\\JlkMailer.Presentation.csproj",
+      "src\\JlkMailer.Cli\\JlkMailer.Cli.csproj",
+      "tests\\JlkMailer.Tests\\JlkMailer.Tests.csproj"
+    ]
+  }
+}

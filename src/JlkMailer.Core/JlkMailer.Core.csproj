@@ -1,0 +1,7 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>JlkMailer.Core</RootNamespace>
+  </PropertyGroup>
+  <!-- 설계 §05: Core는 어떤 외부 라이브러리도 참조하지 않는다. PackageReference 추가 금지. -->
+</Project>

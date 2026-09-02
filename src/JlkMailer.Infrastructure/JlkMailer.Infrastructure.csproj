@@ -1,0 +1,38 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>JlkMailer.Infrastructure</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\JlkMailer.Core\JlkMailer.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- 엑셀: 대상 PC에 Excel 설치가 없어도 동작. MIT. (EPPlus 5+ 는 상용 라이선스이므로 사용하지 않음) -->
+    <PackageReference Include="ClosedXML" Version="0.105.1" />
+
+    <!-- 메일: multipart/related CID 이미지, SASL XOAUTH2 지원. System.Net.Mail.SmtpClient 는 MS 사용 비권장 -->
+    <PackageReference Include="MailKit" Version="4.17.0" />
+
+    <!-- HTML: base64 img 추출·CID 치환. 정규식으로 HTML 파싱하지 않는다 -->
+    <PackageReference Include="HtmlAgilityPack" Version="1.13.0" />
+
+    <!-- CSS 인라인화: <style> 블록 -> 각 태그 style 속성 (Gmail 의 style 태그 제한 대응) -->
+    <PackageReference Include="PreMailer.Net" Version="2.7.4" />
+
+    <!--
+      이미지 리사이즈/재인코딩.
+      2.1.13 은 Apache-2.0 이고 3.x 부터 Six Labors Split License(상용 시 유료)로 바뀌었다.
+      상용 제품이므로 라이선스 리스크가 없고 보안 패치가 적용된 2.1.13 으로 고정한다. 설계 §04 비고 대응.
+      2.1.x 를 올릴 때는 nuspec 의 license 가 Apache-2.0 인지 반드시 확인할 것.
+    -->
+    <PackageReference Include="SixLabors.ImageSharp" Version="2.1.13" />
+
+    <!-- 발송 로그·재개·수신거부. 서버 불필요, 파일 1개 -->
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.11" />
+
+    <!-- 자격증명 암호화(Windows DPAPI). 런타임은 Windows 전용이지만 net8.0 으로 컴파일된다 -->
+    <PackageReference Include="System.Security.Cryptography.ProtectedData" Version="8.0.0" />
+  </ItemGroup>
+</Project>

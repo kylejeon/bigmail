@@ -216,3 +216,26 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# ---------------------------------------------------------------- .NET
+[Bb]in/
+[Oo]bj/
+publish/
+*.user
+*.suo
+.vs/
+*.binlog
+
+# 발송 로그 DB · 자격증명 · 산출물 — 절대 커밋하지 않는다
+*.db
+*.db-wal
+*.db-shm
+credentials.json
+.jlkmail-secret
+*.secret
+# 주의: '*secret*' 같은 넓은 패턴은 쓰지 말 것.
+# git 은 Windows/macOS 에서 기본이 core.ignorecase=true 라
+# SecretService.cs · SecretStore.cs 같은 소스 파일까지 삼킨다.
+build-output/
+발송결과*.xlsx
+preview.html
