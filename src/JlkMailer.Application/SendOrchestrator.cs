@@ -37,6 +37,14 @@ public sealed class SendOrchestrator(
     private readonly Func<TimeSpan, CancellationToken, Task> _delay = delay ?? Task.Delay;
     private readonly Random _rng = new();
 
+    /// <summary>
+    /// 시각은 반드시 이 하나를 통해 읽는다.
+    /// 일 상한은 주입된 시계로 판정하면서 sent_at 은 DateTimeOffset.Now 로 기록하면,
+    /// 두 값이 서로 다른 날짜를 가리켜 상한이 영원히 채워지지 않는다.
+    /// 실운영에서도 자정을 넘기는 순간 같은 어긋남이 생긴다.
+    /// </summary>
+    private DateTimeOffset Now() => new(_now());
+
     public async Task<SendOutcome> RunAsync(
         Campaign campaign,
         IReadOnlyDictionary<long, Recipient> recipientsById,
@@ -116,7 +124,7 @@ public sealed class SendOrchestrator(
             {
                 case SmtpOutcome.Success:
                     entry.State = SendState.Sent;
-                    entry.SentAt = DateTimeOffset.Now;
+                    entry.SentAt = Now();
                     entry.Attempt++;
                     consecutiveFailures = 0;
                     sentThisRun++;
@@ -125,7 +133,7 @@ public sealed class SendOrchestrator(
                 case SmtpOutcome.Transient when entry.Attempt + 1 < ThrottlePolicy.MaxAttempts:
                     entry.Attempt++;
                     entry.State = SendState.Retrying;
-                    entry.NextAttemptAt = DateTimeOffset.Now + ThrottlePolicy.BackoffFor(entry.Attempt);
+                    entry.NextAttemptAt = Now() + ThrottlePolicy.BackoffFor(entry.Attempt);
                     consecutiveFailures++;
                     break;
 
@@ -143,7 +151,7 @@ public sealed class SendOrchestrator(
                     consecutiveFailures++;
                     failedThisRun++;
                     // 존재하지 않는 주소는 다음 캠페인에서 자동 제외한다. 설계 §10.
-                    store.AddSuppression(new Suppression(entry.EmailNorm, Suppression.HardBounce, DateTimeOffset.Now));
+                    store.AddSuppression(new Suppression(entry.EmailNorm, Suppression.HardBounce, Now()));
                     break;
             }
 

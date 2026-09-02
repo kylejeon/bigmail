@@ -17,8 +17,15 @@ public sealed class SendOrchestratorTests : IDisposable
     private readonly SqliteCampaignStore _store;
     private readonly Campaign _campaign;
 
-    // 2026-09-02 는 수요일 오전 — 발송 창이 열려 있는 시각
-    private DateTime _now = DateTime.Parse("2026-09-02 09:30");
+    /// <summary>
+    /// 고정된 과거 시각. 2026-01-07 은 수요일이고 09:30 은 오전 발송 창 안이다.
+    ///
+    /// '오늘'을 쓰면 안 된다. 예전에는 실행 당일과 주입 시계의 날짜가 우연히 같아서
+    /// 일 상한 버그(sent_at 은 실제 시계, 상한 판정은 주입 시계)가 가려졌고,
+    /// 날짜가 넘어간 다음 날에야 드러났다.
+    /// 고정 과거 날짜를 쓰면 두 시계가 어긋난 순간 항상 실패한다.
+    /// </summary>
+    private DateTime _now = DateTime.Parse("2026-01-07 09:30");
     private TimeSpan _slept = TimeSpan.Zero;
 
     public SendOrchestratorTests()
@@ -156,10 +163,29 @@ public sealed class SendOrchestratorTests : IDisposable
         Assert.Equal(7, _store.Counts(_campaign.Id).Queued);
     }
 
+    /// <summary>
+    /// 회귀 방지: sent_at 을 실제 시계로, 상한 판정을 주입 시계로 하면
+    /// 두 날짜가 어긋나 상한이 영원히 채워지지 않는다.
+    /// 발송한 건은 반드시 '발송 시점의 시계' 날짜로 집계되어야 한다.
+    /// </summary>
+    [Fact]
+    public async Task 발송_기록은_주입된_시계의_날짜로_집계된다()
+    {
+        var (recipients, templates) = Seed(3);
+        await Build(new FakeMailSender()).RunAsync(_campaign, recipients, templates);
+
+        var sentDate = DateOnly.FromDateTime(_now);
+
+        Assert.Equal(3, _store.CountSentOn(_campaign.Id, sentDate));
+        Assert.Equal(0, _store.CountSentOn(_campaign.Id, DateOnly.FromDateTime(DateTime.Now)));
+        Assert.All(_store.GetLog(_campaign.Id),
+                   e => Assert.Equal(sentDate, DateOnly.FromDateTime(e.SentAt!.Value.LocalDateTime)));
+    }
+
     [Fact]
     public async Task 발송_시간대_밖이면_시작하지_않고_다음_시각을_알려준다()
     {
-        _now = DateTime.Parse("2026-09-02 12:30");   // 점심시간
+        _now = DateTime.Parse("2026-01-07 12:30");   // 점심시간
         var (recipients, templates) = Seed(5);
 
         var outcome = await Build(new FakeMailSender()).RunAsync(_campaign, recipients, templates);
