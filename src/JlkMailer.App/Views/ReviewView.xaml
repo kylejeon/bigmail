@@ -73,16 +73,49 @@
                   RowHeaderWidth="0" FontSize="12" Background="{StaticResource Surface}"
                   BorderBrush="{StaticResource Rule}" BorderThickness="1">
             <DataGrid.Columns>
-                <DataGridCheckBoxColumn Header="발송" Binding="{Binding Included, UpdateSourceTrigger=PropertyChanged}" Width="46" />
+                <!-- DataGridCheckBoxColumn 은 셀을 편집 모드로 들어가야 토글돼 클릭이 두 번 필요하다.
+                     1,872행을 훑는 화면이라 한 번에 토글되도록 템플릿 컬럼으로 만든다. -->
+                <DataGridTemplateColumn Header="발송" Width="46">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding Included, UpdateSourceTrigger=PropertyChanged}"
+                                      HorizontalAlignment="Center" Margin="0" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
                 <DataGridTextColumn Header="행" Binding="{Binding RowNo}" Width="52" IsReadOnly="True" />
                 <DataGridTextColumn Header="병원 및 업체명" Binding="{Binding Hospital}" Width="200" IsReadOnly="True" />
                 <DataGridTextColumn Header="성함" Binding="{Binding Name}" Width="72" IsReadOnly="True" />
                 <DataGridTextColumn Header="진료과(원본)" Binding="{Binding DeptRaw}" Width="130" IsReadOnly="True" />
-                <DataGridComboBoxColumn Header="세그먼트" Width="92"
-                                        SelectedItemBinding="{Binding Segment, UpdateSourceTrigger=PropertyChanged}"
-                                        ItemsSource="{Binding DataContext.Segments, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+                <!--
+                  DataGridComboBoxColumn 을 쓰면 안 된다.
+                  DataGrid 의 Column 은 비주얼 트리에 속하지 않아 RelativeSource AncestorType 이 해석되지 않는다.
+                  ItemsSource 바인딩이 오류 없이 조용히 실패해서 드롭다운이 빈 채로 뜨고,
+                  S7 행에 세그먼트를 지정하는 조작(§07)이 통째로 막힌다.
+                  템플릿 컬럼 안의 ComboBox 는 비주얼 트리에 있으므로 정상 해석된다.
+                -->
+                <DataGridTemplateColumn Header="세그먼트" Width="104">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <ComboBox ItemsSource="{Binding DataContext.Segments, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                      SelectedItem="{Binding Segment, UpdateSourceTrigger=PropertyChanged}"
+                                      BorderThickness="0" Background="Transparent" Padding="2,0"
+                                      FontFamily="{StaticResource MonoFont}" FontSize="11.5" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
                 <DataGridTextColumn Header="이메일" Binding="{Binding Email}" Width="220" IsReadOnly="True" />
-                <DataGridCheckBoxColumn Header="교정" Binding="{Binding FixAccepted, UpdateSourceTrigger=PropertyChanged}" Width="46" />
+                <DataGridTemplateColumn Header="교정" Width="46">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <!-- 교정 제안이 있는 행에만 체크박스를 보인다. 나머지 행에서는 누를 것이 없다. -->
+                            <CheckBox IsChecked="{Binding FixAccepted, UpdateSourceTrigger=PropertyChanged}"
+                                      HorizontalAlignment="Center" Margin="0"
+                                      Visibility="{Binding HasSuggestion, Converter={StaticResource BoolToVisibility}}"
+                                      ToolTip="{Binding SuggestedEmail, StringFormat='교정 후: {0}'}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
                 <DataGridTemplateColumn Header="상태" Width="86" IsReadOnly="True">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>

@@ -3,7 +3,16 @@ using System.Windows.Threading;
 
 namespace JlkMailer.App;
 
-public partial class App : Application
+/// <summary>
+/// 기반 클래스를 반드시 System.Windows.Application 으로 정규화해야 한다.
+///
+/// 이 파일은 namespace JlkMailer.App 안에 있고, C# 은 단순명 'Application' 을
+/// 바깥 네임스페이스(JlkMailer)부터 찾는다. 거기에 Application 계층 프로젝트의
+/// 네임스페이스 JlkMailer.Application 이 있어서 System.Windows.Application 을 가린다.
+/// 네임스페이스 중첩 탐색이 using 지시문보다 우선하므로 using System.Windows; 로는 해결되지 않는다.
+///   → error CS0118: 'Application' is a namespace but is used like a type
+/// </summary>
+public partial class App : System.Windows.Application
 {
     protected override void OnStartup(StartupEventArgs e)
     {
