@@ -10,7 +10,7 @@ namespace JlkMailer.Tests;
 /// </summary>
 public sealed class ViewModelTests : IDisposable
 {
-    private readonly string _dbPath = Path.Combine(Path.GetTempPath(), $"jlk-vm-{Guid.NewGuid():N}.db");
+    private readonly TempDatabase _temp = new();
     private readonly FakeDialogService _dialogs = new();
     private readonly FakeSecretService _secrets = new();
     private readonly ShellViewModel _shell;
@@ -18,7 +18,7 @@ public sealed class ViewModelTests : IDisposable
     public ViewModelTests()
     {
         _shell = new ShellViewModel(_dialogs, _secrets);
-        _shell.State.DatabasePath = _dbPath;
+        _shell.State.DatabasePath = _temp.Path;
     }
 
     private void LoadRealData()
@@ -339,7 +339,6 @@ public sealed class ViewModelTests : IDisposable
     public void Dispose()
     {
         _shell.Dispose();
-        foreach (var suffix in new[] { "", "-wal", "-shm" })
-            if (File.Exists(_dbPath + suffix)) File.Delete(_dbPath + suffix);
+        _temp.Dispose();
     }
 }

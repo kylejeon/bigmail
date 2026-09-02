@@ -7,12 +7,12 @@ namespace JlkMailer.Tests;
 
 public sealed class SqliteCampaignStoreTests : IDisposable
 {
-    private readonly string _path = Path.Combine(Path.GetTempPath(), $"jlk-test-{Guid.NewGuid():N}.db");
+    private readonly TempDatabase _temp = new();
     private readonly SqliteCampaignStore _store;
 
     public SqliteCampaignStoreTests()
     {
-        _store = new SqliteCampaignStore(_path);
+        _store = new SqliteCampaignStore(_temp.Path);
         _store.Initialize();
     }
 
@@ -168,7 +168,6 @@ public sealed class SqliteCampaignStoreTests : IDisposable
     public void Dispose()
     {
         _store.Dispose();
-        foreach (var suffix in new[] { "", "-wal", "-shm" })
-            if (File.Exists(_path + suffix)) File.Delete(_path + suffix);
+        _temp.Dispose();
     }
 }

@@ -23,6 +23,11 @@ public sealed class SqliteCampaignStore(string databasePath) : ICampaignStore, I
             DataSource = path,
             Mode = SqliteOpenMode.ReadWriteCreate,
             Cache = SqliteCacheMode.Private,
+            // 풀링을 끈다. 이 앱은 커넥션 하나를 프로세스 수명 내내 들고 있으므로 풀링의 이득이 없고,
+            // 손해만 있다: Close() 가 커넥션을 풀에 반납할 뿐 파일 핸들을 놓지 않아
+            // Windows 에서 campaign.db 가 잠긴 채 남는다(삭제·이동·경로 변경이 실패).
+            // Linux/macOS 는 열린 파일도 unlink 되므로 이 증상이 드러나지 않는다.
+            Pooling = false,
         }.ToString());
 
         connection.Open();
@@ -548,6 +553,11 @@ public sealed class SqliteCampaignStore(string databasePath) : ICampaignStore, I
     public void Dispose()
     {
         _connection.Close();
+
+        // 풀링을 껐어도, 과거에 만들어진 풀이 남아 있을 수 있으므로 한 번 더 비운다.
+        // 이것까지 해야 WAL 파일(-wal, -shm)이 정리되고 파일 잠금이 완전히 풀린다.
+        SqliteConnection.ClearPool(_connection);
+
         _connection.Dispose();
     }
 }

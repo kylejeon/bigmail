@@ -13,7 +13,7 @@ namespace JlkMailer.Tests;
 /// </summary>
 public sealed class SendOrchestratorTests : IDisposable
 {
-    private readonly string _path = Path.Combine(Path.GetTempPath(), $"jlk-orch-{Guid.NewGuid():N}.db");
+    private readonly TempDatabase _temp = new();
     private readonly SqliteCampaignStore _store;
     private readonly Campaign _campaign;
 
@@ -23,7 +23,7 @@ public sealed class SendOrchestratorTests : IDisposable
 
     public SendOrchestratorTests()
     {
-        _store = new SqliteCampaignStore(_path);
+        _store = new SqliteCampaignStore(_temp.Path);
         _store.Initialize();
         _campaign = new Campaign { Name = "테스트", DailyCap = 100, FromAddress = "a@jlk.com", FromName = "JLK" };
         _store.UpsertCampaign(_campaign);
@@ -238,7 +238,6 @@ public sealed class SendOrchestratorTests : IDisposable
     public void Dispose()
     {
         _store.Dispose();
-        foreach (var suffix in new[] { "", "-wal", "-shm" })
-            if (File.Exists(_path + suffix)) File.Delete(_path + suffix);
+        _temp.Dispose();
     }
 }
